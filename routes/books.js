@@ -5,6 +5,7 @@ const path = require("path");
 const fs = require("fs");
 const bookSchema = require("../model/bookSchema");
 const authorSchema = require("../model/authorSchema");
+const moment = require("moment");
 const uploadPath = path.join("public", bookSchema.coverImageStorePath);
 const imageMimeTypes = ["image/jpeg", "image/jpg", "image/png", "images/gif"];
 
@@ -92,9 +93,12 @@ router.get("/", async (req, res) => {
   }
 
   try {
-    // let data = await bookSchema.find(searchOptions);
     const data = await query.exec();
-    res.render("books/index", { data: data, searchOptions: req.query });
+    res.render("books/index", {
+      data: data,
+      searchOptions: req.query,
+      moment: moment,
+    });
   } catch (err) {
     res.render("books/index", {
       data: data,
